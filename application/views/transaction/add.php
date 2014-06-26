@@ -5,7 +5,7 @@
 
 <div class='boxContent'>
     <?php echo form_open($page."/save",array("id"=>"transactionForm")); ?>
-    
+
     <div class="form-group">
         <label class="col-sm-2 control-label">Customer Name</label>
         <div class="col-sm-10">
@@ -49,6 +49,13 @@
     </div>
 
     <div class="form-group">
+        <label class="col-sm-2 control-label">Transport Type</label>
+        <div class="col-sm-10">
+            <?php echo $this->inputfields->transport_type_lists("transport_type",(!empty($data['transport_type']) ? $data['transport_type'] : ""),array("placeHolder"=>"Transport Type","","class"=>"form-control")); ?>
+        </div>
+    </div>
+
+    <div class="form-group">
         <label class="col-sm-2 control-label">Special Instruction</label>
         <div class="col-sm-10">
             <?php echo $this->inputfields->textarea("special_instruction",(!empty($data['special_instruction']) ? $data['special_instruction'] : ""),array("placeHolder"=>"Special Instruction","","class"=>"form-control")); ?>
@@ -70,7 +77,7 @@
     </div>
 
     <div class="form-group">
-    <label class="col-sm-2 control-label">Total</label>
+        <label class="col-sm-2 control-label">Total</label>
         <div class="col-sm-10">
             <?php echo $this->inputfields->text("price",(!empty($data['price']) ? $data['price'] : ""),array("placeHolder"=>"Total","","class"=>"form-control")); ?>
         </div>
@@ -84,9 +91,9 @@
     </div>
 
     <div class="form-group">
-        <label class="col-sm-2 control-label">Picked By</label>
+        <label class="col-sm-2 control-label">DeliveredBy</label>
         <div class="col-sm-10">
-            <?php echo $this->inputfields->text("delivery_by",(!empty($data['delivery_by']) ? $data['delivery_by'] : ""),array("placeHolder"=>"Delivery By","","class"=>"form-control")); ?>
+            <?php echo $this->inputfields->text("delivered_by",(!empty($data['delivered_by']) ? $data['delivered_by'] : ""),array("placeHolder"=>"Delivered By","","class"=>"form-control")); ?>
         </div>
     </div>
 
@@ -105,70 +112,62 @@
     </div>
 
     <p>&nbsp;</p>
+    <label class="col-sm-2 control-label">Pembayaran</label>
     <a href='#' class='btn btn-primary pull-right cloneRow'>Clone Button</a>
     <table class='table table-striped'>
         <tr>
-            <th>Transaction id</th>
-            <th>Penyerah</th>
-            <th>Penerima</th>
-            <th>Date</th>
-            <th>Shipping Date</th>
-            <th>Arrived Date</th>
-            <th>complete Date</th>
-            <th>Remark</th>
-            <th>Status</th>
+            <th>Master Price</th>
         </tr>
         <!-- hidden tr disediakan untuk di clone di baris selanjutnya -->
         <tr class='hide rowPrivilege'>
             <td>
-                <?php echo $this->inputfields->transactions_lists("transaction_id[]",(!empty($data['transaction_id']) ? $data['transaction_id'] : ""),array("placeHolder"=>"Transaksi","","class"=>"form-control")); ?>
-            </td>
-            <td><input type='text' name='detail_penyerah[]' class='form-control' placeHolder='Penyerah'/></td>
-            <td><input type='text' name='detail_penerima[]' class='form-control' placeHolder='Penerima'/></td>
-            <td><input type='text' name='detail_date[]' class='form-control datepicker' placeHolder='Date'/></td>
-            <td><input type='text' name='detail_shipping_date[]' class='form-control datepicker' placeHolder='Shipping Date'/></td>
-            <td><input type='text' name='detail_arrived_date[]' class='form-control datepicker' placeHolder='Arrived Date'/></td>
-            <td><input type='text' name='detail_complete_date[]' class='form-control datepicker' placeHolder='complete Date'/></td>
-            <td><input type='textarea' name='remark[]' class='form-control' placeHolder='Remark'/></td>
-            <td>
-    <?php echo $this->inputfields->shipment_lists("detail_status[]","",array("placeHolder"=>"Status","","class"=>"form-control")); ?>
-            </td>
-        </tr>
-        
-        <?php if(!empty($data1)): ?>
-        <tr class='displayPrivilege'>
-           <td>
-                <?php echo $this->inputfields->transactions_lists("transaction_id[]",(!empty($data['transaction_id']) ? $data['transaction_id'] : ""),array("placeHolder"=>"Transaksi","","class"=>"form-control")); ?>
-            </td>
-            <td><input type='text' name='detail_penyerah[]' class='form-control' placeHolder='Penyerah' value="<?php echo $data['penyerah'] ?>"/></td>
-            <td><input type='text' name='detail_penerima[]' class='form-control' placeHolder='Penerima' value="<?php echo $data['penerima'] ?>"/></td>
-            <td><input type='text' id="date" name='detail_date[]' class='form-control datepicker' placeHolder='Date' value="<?php echo $data['date'] ?>"/></td>
-            <td><input type='text' id="date" name='detail_shipping_date[]' class='form-control datepicker' placeHolder='Shipping Date' value="<?php echo $data['shipping_date'] ?>"/></td>
-            <td><input type='text' id="date" name='detail_arrived_date[]' class='form-control datepicker' placeHolder='Arrived Date' value="<?php echo $data['arrived_date'] ?>"/></td>
-            <td><input type='text' id="date" name='detail_complete_date[]' class='form-control datepicker' placeHolder='complete Date' value="<?php echo $data['complete_date'] ?>"/></td>
-            <td><input type='textarea' name='remark[]' class='form-control' placeHolder='Remark'/></td>
-            <td>
-    <?php echo $this->inputfields->shipment_lists("detail_status[]","",array("placeHolder"=>"Status","","class"=>"form-control")); ?>
+                <?php echo $this->inputfields->type_pembayaran_lists("master_price_id[]",(!empty($data['master_price_id']) ? $data['master_price_id'] : ""),array("placeHolder"=>"Transaksi","","class"=>"form-control")); ?>
             </td>
         </tr>
 
-        <?php else: ?>
-        <tr class='displayPrivilege'>
-                <td>
-                <?php echo $this->inputfields->transactions_lists("transaction_id[]",(!empty($data['transaction_id']) ? $data['transaction_id'] : ""),array("placeHolder"=>"Transaksi","","class"=>"form-control")); ?>
-            </td>
-            <td><input type='text' name='detail_penyerah[]' class='form-control' placeHolder='Penyerah'/></td>
-            <td><input type='text' name='detail_penerima[]' class='form-control' placeHolder='Penerima'/></td>
-            <td><input type='text' name='detail_date[]' class='form-control datepicker' placeHolder='Date'/></td>
-            <td><input type='text' name='detail_shipping_date[]' class='form-control datepicker' placeHolder='Shipping Date'/></td>
-            <td><input type='text' name='detail_arrived_date[]' class='form-control datepicker' placeHolder='Arrived Date'/></td>
-            <td><input type='text' name='detail_complete_date[]' class='form-control datepicker' placeHolder='complete Date'/></td>
-            <td><input type='textarea' name='remark[]' class='form-control' placeHolder='Remark'/></td>
-            <td>
-    <?php echo $this->inputfields->shipment_lists("detail_status[]","",array("placeHolder"=>"Status","","class"=>"form-control")); ?>
+        <?php if(!empty($data1)): ?>
+            <tr class='displayPrivilege'>
+               <td>
+                <?php echo $this->inputfields->type_pembayaran_lists("master_price_id[]",(!empty($data['master_price_id']) ? $data['master_price_id'] : ""),array("placeHolder"=>"Transaksi","","class"=>"form-control")); ?>
             </td>
         </tr>
-        <?php endif; ?>
-    </table>
+
+    <?php else: ?>
+        <tr class='displayPrivilege'>
+            <td>
+                <?php echo $this->inputfields->type_pembayaran_lists("master_price_id[]",(!empty($data['master_price_id']) ? $data['master_price_id'] : ""),array("placeHolder"=>"Transaksi","","class"=>"form-control")); ?>
+            </td>
+        </tr>
+    <?php endif; ?>
+</table>
+<p>&nbsp;</p>
+<label class="col-sm-2 control-label">Document</label>
+<a href='#' class='btn btn-primary pull-right cloneRow'>Clone Button</a>
+<table class='table table-striped'>
+    <tr>
+        <th>Document Number</th>
+    </tr>
+    <!-- hidden tr disediakan untuk di clone di baris selanjutnya -->
+    <tr class='hide rowPrivilege'>
+        <td>
+            <?php echo $this->inputfields->text("attachment_no",(!empty($datas['attachment_no']) ? $datas['attachment_no'] : ""),array("placeHolder"=>"Transaksi","","class"=>"form-control")); ?>
+        </td>
+    </tr>
+
+    <?php if(!empty($datas)): ?>
+        <tr class='displayPrivilege'>
+           <td>
+            <?php echo $this->inputfields->text("attachment_no",(!empty($datas['attachment_no']) ? $datas['attachment_no'] : ""),array("placeHolder"=>"Transaksi","","class"=>"form-control")); ?>
+        </td>
+    </tr>
+
+<?php else: ?>
+    <tr class='displayPrivilege'>
+        <td>
+            <?php echo $this->inputfields->text("attachment_no",(!empty($datas['attachment_no']) ? $datas['attachment_no'] : ""),array("placeHolder"=>"Transaksi","","class"=>"form-control")); ?>
+        </td>
+    </tr>
+<?php endif; ?>
+</table>
 <?php echo form_close(); ?>
 </div>

@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class transaction extends CI_Controller {
+class Transaction extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
@@ -42,20 +42,20 @@ class transaction extends CI_Controller {
 				$data['drescription']			 	= $post['drescription'];
 				$data['transport_type']				= $post['transport_type'];
 				$data['special_instruction']		= $post['special_instruction'];
-				$data['total']						= $post['total'];
+				$data['price']						= $post['price'];
 				$data['picked_by']					= $post['picked_by'];
-				$data['delivery_by']			 	= $post['delivery_by'];
+				$data['delivered_by']			 	= $post['delivered_by'];
 				$data['handover_by']			 	= $post['handover_by'];
 				$data['received_by']			 	= $post['received_by'];
+				$datas['attachment_no']				= $post['attachment_no'];
+				$datak['address']					= $post['address'];
 
+				$this->default_model->store("attachment",$datas);
+				$this->default_model->store("master_address",$datak);
 
 				for($i=1; $i<count($post['master_price_id']); $i++)
 				{
 					$data1['master_price_id'] 	= $post['master_price_id'][$i];
-					$data1['price']				= $post['price'][$i];
-					$data1['quantity']			= $post['quantity'][$i];
-					$data1['amount']			= $post['amount'][$i];
-					$data1['description']		= $post['description'][$i];
 					$this->default_model->store("transaction_detail_price",$data1);			
 				}
 				

@@ -136,23 +136,30 @@ class tablefields
 		return $this->returnFields($fields,$post);
 	}
 
-	function transaksi($post="")
+	function transaction($post="")
 	{
-		$fields['fields'] = array("id","no_pod","customer_id","pick_address_id","ship_address_id","quantity","gross_weight","volume","volume_weight","drescription_goods","transport_type","special_instruction","price","pickup_by","delivery_by","handover_by","received_by");
+		$fields['fields'] = array("id","no_pod","customer_id","pick_address_id","ship_address_id","quantity","gross_weight","volume","volume_weight","drescription_goods","transport_type","special_instruction","price","pickup_by","delivered_by","handover_by","received_by");
 		$fields['primary'] = "id";
 		return $this->returnFields($fields,$post);
 	}
 
-	function transaction_price_detail($post="")
+	function transaction_detail_price($post="")
 	{
 		$fields['fields'] = array("id","master_price_id","price","quantity","amount","description");
 		$fields['primary'] = "id";
 		return $this->returnFields($fields,$post);
 	}
 
-	function attachmend($post="")
+	function attachment($post="")
 	{
-		$fields['fields'] = array("id","transaction_id","attachmend_no","type","name","filename","quantity","unit_id","status");
+		$fields['fields'] = array("id","transaction_id","attachment_no","type","name","filename","quantity","unit_id","status");
+		$fields['primary'] = "id";
+		return $this->returnFields($fields,$post);
+	}
+
+	function master_address($post="")
+	{
+		$fields['fields'] = array("id","company_id","type","address","location_id","last_modified","status");
 		$fields['primary'] = "id";
 		return $this->returnFields($fields,$post);
 	}

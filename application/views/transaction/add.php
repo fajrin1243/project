@@ -4,7 +4,10 @@
 </div>
 
 <div class='boxContent'>
-    <?php echo form_open($page."/save",array("id"=>"transactionForm")); ?>
+    <?php echo form_open_multipart($page."/save",array("id"=>"transactionForm")); ?>
+
+    <?php echo $this->inputfields->hidden("id",(!empty($data['id']) ? $data['id'] : ""),array("type"=>"hidden","","class"=>"form-control")); ?>
+
 
     <div class="form-group">
         <label class="col-sm-2 control-label">Customer Name</label>
@@ -123,6 +126,10 @@
             <td>
                 <?php echo $this->inputfields->type_pembayaran_lists("master_price_id[]",(!empty($data['master_price_id']) ? $data['master_price_id'] : ""),array("placeHolder"=>"Transaksi","","class"=>"form-control")); ?>
             </td>
+            <td><input type='text' name='detail_price[]' class='form-control' placeHolder='Price'/></td>
+            <td><input type='text' name='detail_quantity[]' class='form-control' placeHolder='Quantity'/></td>
+            <td><input type='text' name='amount[]' class='form-control' placeHolder='Amount'/></td>
+            <td><textarea name='detail_description[]' class='form-control' placeHolder='Description'/></textarea></td>
         </tr>
 
         <?php if(!empty($data1)): ?>
@@ -130,6 +137,11 @@
                <td>
                 <?php echo $this->inputfields->type_pembayaran_lists("master_price_id[]",(!empty($data['master_price_id']) ? $data['master_price_id'] : ""),array("placeHolder"=>"Transaksi","","class"=>"form-control")); ?>
             </td>
+            <td><input type='text' name='detail_price[]' class='form-control' placeHolder='Price' value="<?php echo $data1['price'] ?>"/></td>
+            <td><input type='text' name='detail_quantity[]' class='form-control' placeHolder='Quantity' value="<?php echo $data1['quantity'] ?>"/></td>
+            <td><input type='text' name='amount[]' class='form-control' placeHolder='Amount' value="<?php echo $data1['amount'] ?>"/></td>
+            <td><textarea name='detail_description[]' class='form-control' placeHolder='Description'><?php echo $data1['description'] ?></textarea>/></td>
+
         </tr>
 
     <?php else: ?>
@@ -137,6 +149,11 @@
             <td>
                 <?php echo $this->inputfields->type_pembayaran_lists("master_price_id[]",(!empty($data['master_price_id']) ? $data['master_price_id'] : ""),array("placeHolder"=>"Transaksi","","class"=>"form-control")); ?>
             </td>
+            <td><input type='text' name='detail_price[]' class='form-control' placeHolder='Price'/></td>
+            <td><input type='text' name='detail_quantity[]' class='form-control' placeHolder='Quantity'/></td>
+            <td><input type='text' name='amount[]' class='form-control' placeHolder='Amount'/></td>
+            <td><textarea name='detail_description[]' class='form-control' placeHolder='Description'/></textarea></td>
+
         </tr>
     <?php endif; ?>
 </table>
@@ -146,28 +163,34 @@
 <table class='table table-striped'>
     <tr>
         <th>Document Number</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Browse File</th>
     </tr>
     <!-- hidden tr disediakan untuk di clone di baris selanjutnya -->
     <tr class='hide rowPrivilege'>
-        <td>
-            <?php echo $this->inputfields->text("attachment_no",(!empty($datas['attachment_no']) ? $datas['attachment_no'] : ""),array("placeHolder"=>"Transaksi","","class"=>"form-control")); ?>
-        </td>
+        <td><?php echo $this->inputfields->text("attachment_no",(!empty($datas['attachment_no']) ? $datas['attachment_no'] : ""),array("placeHolder"=>"Number","","class"=>"form-control")); ?></td>
+        <td><?php echo $this->inputfields->text("name",(!empty($datas['name']) ? $datas['name'] : ""),array("placeHolder"=>"Name","","class"=>"form-control")); ?></td>
+        <td><?php echo $this->inputfields->attachment_type_lists("type",(!empty($datas['type']) ? $datas['type'] : ""),array("placeHolder"=>"Transaksi","","class"=>"form-control")); ?></td>
+        <td><?php echo $this->inputfields->file("filename",(!empty($datas['filename']) ? $datas['filename'] : ""),array("placeHolder"=>"Filename","","")); ?></td>
     </tr>
 
     <?php if(!empty($datas)): ?>
         <tr class='displayPrivilege'>
-           <td>
-            <?php echo $this->inputfields->text("attachment_no",(!empty($datas['attachment_no']) ? $datas['attachment_no'] : ""),array("placeHolder"=>"Transaksi","","class"=>"form-control")); ?>
-        </td>
-    </tr>
+            <td><?php echo $this->inputfields->text("attachment_no",(!empty($datas['attachment_no']) ? $datas['attachment_no'] : ""),array("placeHolder"=>"Number","","class"=>"form-control")); ?></td>
+            <td><?php echo $this->inputfields->text("name",(!empty($datas['name']) ? $datas['name'] : ""),array("placeHolder"=>"Name","","class"=>"form-control")); ?></td>
+            <td><?php echo $this->inputfields->attachment_type_lists("type",(!empty($datas['type']) ? $datas['type'] : ""),array("placeHolder"=>"Transaksi","","class"=>"form-control")); ?></td>
+            <td><?php echo $this->inputfields->file("filename",(!empty($datas['filename']) ? $datas['filename'] : ""),array("placeHolder"=>"Filename","","")); ?></td>
+        </tr>
 
-<?php else: ?>
-    <tr class='displayPrivilege'>
-        <td>
-            <?php echo $this->inputfields->text("attachment_no",(!empty($datas['attachment_no']) ? $datas['attachment_no'] : ""),array("placeHolder"=>"Transaksi","","class"=>"form-control")); ?>
-        </td>
-    </tr>
-<?php endif; ?>
+    <?php else: ?>
+        <tr class='displayPrivilege'>
+         <td><?php echo $this->inputfields->text("attachment_no",(!empty($datas['attachment_no']) ? $datas['attachment_no'] : ""),array("placeHolder"=>"Number","","class"=>"form-control")); ?></td>
+         <td><?php echo $this->inputfields->text("name",(!empty($datas['name']) ? $datas['name'] : ""),array("placeHolder"=>"Name","","class"=>"form-control")); ?></td>
+         <td><?php echo $this->inputfields->attachment_type_lists("type",(!empty($datas['type']) ? $datas['type'] : ""),array("placeHolder"=>"Transaksi","","class"=>"form-control")); ?></td>
+         <td><?php echo $this->inputfields->file("filename",(!empty($datas['filename']) ? $datas['filename'] : ""),array("placeHolder"=>"Filename","","")); ?></td>
+     </tr>
+ <?php endif; ?>
 </table>
 <?php echo form_close(); ?>
 </div>

@@ -58,6 +58,10 @@ class Master extends CI_Controller {
 				if(!empty($id))
 				{
 					$this->default_model->delete("master_company",array("id"=>$id));
+					
+					//log system
+					$this->log->set("master/company",$action);
+					
 					redirect(site_url("master/company"));
 				}
 				break;
@@ -90,6 +94,9 @@ class Master extends CI_Controller {
 				}
 				else
 				{
+					//log system
+					$this->log->set("master/company",$action);
+				
 					$this->default_model->store("master_company",$post);
 					redirect(site_url("master/company"));
 				}
@@ -131,7 +138,7 @@ class Master extends CI_Controller {
 					"password"=>
 					array("type"=>"password","value"=>"","placeHolder"=>"Masukkan Password untuk mengganti password lama"),
 					"name"=>"text",
-					"email"=>"text",
+					"email"=>"email",
 					"user_type_id"=>array("type"=>"user_type_lists","privilege"=>"1"), //artinya hanya super users yang dapat mengedit jenis user atau jenis member
 					"status"=>array("type"=>"status_lists","privilege"=>"1,2") //hanya super users dan admin yang hanya bisa mengedit status
 						);

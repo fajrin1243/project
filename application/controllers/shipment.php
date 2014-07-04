@@ -32,6 +32,7 @@ class Shipment extends CI_Controller {
 			case "save":
 			if(count($post['transaction_id']) > 1)
 			{
+				$data['id']						= $post['id'];
 				$data['sppb'] 		 			= $post['sppb'];
 				$data['vehicle_id']  		 	= $post['vehicle_id'];
 				$data['driver_id']	 			= $post['driver_id'];
@@ -48,6 +49,7 @@ class Shipment extends CI_Controller {
 
 				for($i=1; $i<count($post['transaction_id']); $i++)
 				{
+					$data1['id']				= $post['detail_id'][$i];
 					$data1['transaction_id'] 	= $post['transaction_id'][$i];
 					$data1['penyerah']			= $post['detail_penyerah'][$i];
 					$data1['penerima']			= $post['detail_penerima'][$i];

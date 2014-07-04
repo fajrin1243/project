@@ -103,6 +103,8 @@ class inputfields
 		//customparams to get query database
 		$customParams = (!empty($customParams) ? array_merge($customParams,array("status"=>"Active")) : array("status"=>"Active","parent_id"=>"0"));
 		$options = $this->ci->default_model->getdata("master_location",$customParams,"array");
+		
+		$parameters = $this->joinParams($parameters,array("class"=>"masterlocation","tag"=>"0","data-value"=>$value));
 		$parameters = (is_array($parameters) ? $this->setStringParameter($parameters) : $parameters);
 		return $this->setlist($name,$options,$value,$parameters,$select);
 	}
@@ -161,6 +163,13 @@ class inputfields
 		$parameters = (is_array($parameters) ? $this->setStringParameter($parameters) : $parameters);
 		return $this->setlist($name,$options,$value,$parameters,$select);
 	}
+	
+	function driver_lists($name="",$value="",$parameters="",$label="")
+	{
+		$select = array("id","name");
+		$options = $this->ci->default_model->getdata("master_staff",array("status"=>"Active","type"=>"driver"),"array");
+		return $this->setlist($name,$options,$value,$parameters,$select);
+	}
 
 	function transaction_lists($name="",$value="",$parameters="",$label="")
 	{
@@ -215,10 +224,29 @@ class inputfields
 		return $this->setlist($name,$options,$value,$parameters);
 	}
 
+	function attachment_type_lists($name="",$value="",$parameters="",$label="")
+	{
+		$options = array(""=>"Select Type","Original"=>"Original","Copy"=>"Copy","Other"=>"Other");
+		$parameters = (is_array($parameters) ? $this->setStringParameter($parameters) : $parameters);
+		return $this->setlist($name,$options,$value,$parameters);
+	}
+
 	function text($name="",$value="",$parameters="",$label="")
 	{
 		$parameters = (is_array($parameters) ? $this->setStringParameter($parameters) : $parameters);
-		return form_input($name,$value,$parameters);
+		return form_input(array("name"=>$name,"type"=>"text"),$value,$parameters);
+	}
+
+	function email($name="",$value="",$parameters="",$label="")
+	{
+		$parameters = (is_array($parameters) ? $this->setStringParameter($parameters) : $parameters);
+		return form_input(array("name"=>$name,"type"=>"email"),$value,$parameters);
+	}
+
+	function file($name="",$value="",$parameters="",$label="")
+	{
+		$parameters = (is_array($parameters) ? $this->setStringParameter($parameters) : $parameters);
+		return form_input(array("name"=>$name,"type"=>"file"),$value,$parameters);
 	}
 	
 	function date($name="",$value="",$parameters="",$label="")
@@ -256,65 +284,78 @@ class inputfields
 		$parameters = string,
 		$select array($key,$val)
 	*/
-		function setlist($name="",$options="",$value="",$parameters="",$select="")
+	function setlist($name="",$options="",$value="",$parameters="",$select="")
+	{
+		if(!empty($select))
 		{
-			if(!empty($select))
+			$getOptions = array();
+			
+			$getOptions[] = (!empty($parameters['placeHolder']) ? ucfirst($parameters['placeHolder']) : "Select ".ucfirst(str_replace("id","",str_replace("_"," ",$name))));
+			foreach($options as $option)
 			{
-				$getOptions = array();
-
-				$getOptions[] = "Select ".ucfirst(str_replace("id","",str_replace("_"," ",$name)));
-				foreach($options as $option)
+				if(is_array($option))
 				{
-					if(is_array($option))
-					{
-						$getOptions[$option[$select[0]]] = $option[$select[1]];
-					}
-					else
-					{
-						$getOptions[$option->$select[0]] = $option->$select[1];
-					}
+					$getOptions[$option[$select[0]]] = $option[$select[1]];
 				}
-
-				$options = $getOptions;
+				else
+				{
+					$getOptions[$option->$select[0]] = $option->$select[1];
+				}
 			}
-			return form_dropdown((!empty($name) ? $name : ""), $options, (!empty($value) ? $value : ""), (!empty($parameters) ? $parameters : ""));
+			
+			$options = $getOptions;
 		}
-
+        
+        if(is_array($parameters))
+        {
+            $parameters = $this->setStringParameter($parameters);
+        }
+        
+		return form_dropdown((!empty($name) ? $name : ""), $options, (!empty($value) ? $value : ""), (!empty($parameters) ? $parameters : ""));
+	}
+	
 	/* 	to join param
 		$params = array("class"=>"form-control","placeHolder"=>"Form"),
 		$joinParams = array("class"=>"another");
 	*/
-
-		function joinParams($params,$joinParams)
+	
+	function joinParams($params,$joinParams)
+	{
+		$getParams = array();
+		foreach($params as $pkey=>$pval)
 		{
-			$getParams = array();
-			foreach($params as $pkey=>$pval)
+			foreach($joinParams as $jkey=>$jval)
 			{
-				foreach($joinParams as $jkey=>$jval)
-				{
-					$getParams[$jkey][] = $jval;
-				}
-
-				$getParams[$pkey][] = $pval;
-			}
-
-			$setParam = array();
-			foreach($getParams as $key=>$val)
-			{            
-				$paramVal = "";
-				foreach($val as $attr)
-				{
-					if(!is_numeric(strpos($paramVal,$attr)))
-					{
-						$paramVal .= " ".$attr;
-					}
-				}
-
-				$setParam[$key] = $paramVal;
-			}
-
-			return $setParam;
+                $getParams[$jkey][] = $jval;
+            }
+            
+            $getParams[$pkey][] = $pval;
 		}
+        
+        $setParam = array();
+        foreach($getParams as $key=>$val)
+        {            
+            $paramVal = "";
+            foreach($val as $attr)
+            {
+                if((!empty($attr)) || ($attr != 0))
+                {
+                    if(!is_numeric(strpos($paramVal,$attr)))
+                    {
+                        $paramVal .= " ".$attr;
+                    }
+                }
+                else
+                {
+                    $paramVal = $attr;
+                }
+            }
+            
+            $setParam[$key] = $paramVal;
+        }
+        
+        return $setParam;
+	}
 
 		function setStringParameter($parameters)
 		{

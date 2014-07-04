@@ -5,7 +5,10 @@
 
 <div class='boxContent'>
     <?php echo form_open($page."/save",array("id"=>"shipmentForm")); ?>
-    
+
+       <?php echo $this->inputfields->hidden("id",(!empty($data['id']) ? $data['id'] : ""),array("type"=>"hidden","","class"=>"form-control")); ?>
+
+
     <div class="form-group">
         <label class="col-sm-2 control-label">SPPB</label>
         <div class="col-sm-10">
@@ -113,7 +116,8 @@
         </tr>
         <!-- hidden tr disediakan untuk di clone di baris selanjutnya -->
         <tr class='hide rowPrivilege'>
-            <td>
+                        <td>               <?php echo $this->inputfields->hidden("detail_id[]",(!empty($data1['id']) ? $data1['id'] : ""),array("type"=>"hidden","","class"=>"form-control")); ?>
+
                 <?php echo $this->inputfields->transactions_lists("transaction_id[]",(!empty($data['transaction_id']) ? $data['transaction_id'] : ""),array("placeHolder"=>"Transaksi","","class"=>"form-control")); ?>
             </td>
             <td><input type='text' name='detail_penyerah[]' class='form-control' placeHolder='Penyerah'/></td>
@@ -130,7 +134,8 @@
         
         <?php if(!empty($data1)): ?>
         <tr class='displayPrivilege'>
-           <td>
+           <td>               <?php echo $this->inputfields->hidden("detail_id[]",(!empty($data1['id']) ? $data1['id'] : ""),array("type"=>"hidden","","class"=>"form-control")); ?>
+
                 <?php echo $this->inputfields->transactions_lists("transaction_id[]",(!empty($data['transaction_id']) ? $data['transaction_id'] : ""),array("placeHolder"=>"Transaksi","","class"=>"form-control")); ?>
             </td>
             <td><input type='text' name='detail_penyerah[]' class='form-control' placeHolder='Penyerah' value="<?php echo $data['penyerah'] ?>"/></td>
@@ -147,7 +152,8 @@
 
         <?php else: ?>
         <tr class='displayPrivilege'>
-                <td>
+           <td>               <?php echo $this->inputfields->hidden("detail_id[]",(!empty($data1['id']) ? $data1['id'] : ""),array("type"=>"hidden","","class"=>"form-control")); ?>
+
                 <?php echo $this->inputfields->transactions_lists("transaction_id[]",(!empty($data['transaction_id']) ? $data['transaction_id'] : ""),array("placeHolder"=>"Transaksi","","class"=>"form-control")); ?>
             </td>
             <td><input type='text' name='detail_penyerah[]' class='form-control' placeHolder='Penyerah'/></td>

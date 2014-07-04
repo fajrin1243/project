@@ -4,7 +4,7 @@ class tablefields
 {
 	function master_company($post="")
 	{
-		$fields['fields'] = array("id","type","name","address","npwp","phone","mobile","fax","email","bank","status");
+		$fields['fields'] = array("id","type","name","address","location_id","npwp","phone","mobile","fax","email","bank","status");
 		$fields['primary'] = "id";
 		return $this->returnFields($fields,$post);
 	}
@@ -33,29 +33,29 @@ class tablefields
 	function master_vehicle($post="")
 	{
 		$fields['fields']=array(
-					"id",
-					"merk",
+			"id",
+			"merk",
 					//"type",
 					//"jenis",
-					"model",
-					"no_polisi",
-					"pemilik",
-					"tahun_pembuatan",
-					"no_rangka",
-					"no_mesin",
-					"bahan_bakar",
-					"no_kir",
-					"nomer_bbpkb",
-					"capacity_weight",
-					"expired_stnk",
-					"expired_ibm",
-					"expired_sipa",
-					"driver_id",
-					"company_id",
-					"date",
-					"last_modified",
-					"status"
-		);
+			"model",
+			"no_polisi",
+			"pemilik",
+			"tahun_pembuatan",
+			"no_rangka",
+			"no_mesin",
+			"bahan_bakar",
+			"no_kir",
+			"nomer_bbpkb",
+			"capacity_weight",
+			"expired_stnk",
+			"expired_ibm",
+			"expired_sipa",
+			"driver_id",
+			"company_id",
+			"date",
+			"last_modified",
+			"status"
+			);
 		$fields['primary']="id";
 		return $this->returnFields($fields,$post);
 	}
@@ -103,7 +103,8 @@ class tablefields
 	}
 
 	function jurnal($post="")
-	{	$fields['fields']  = array("id","no_jurnal","coa_id","debit","credit","date","status");
+	{	
+		$fields['fields']  = array("id","no_jurnal","coa_id","debit","credit","date","status");
 		$fields['primary'] = "id";
 		return $this->returnFields($fields,$post);
 	}
@@ -157,13 +158,6 @@ class tablefields
 		return $this->returnFields($fields,$post);
 	}
 
-	function master_address($post="")
-	{
-		$fields['fields'] = array("id","company_id","type","address","location_id","last_modified","status");
-		$fields['primary'] = "id";
-		return $this->returnFields($fields,$post);
-	}
-
 	function returnFields($fields="",$post="")
 	{
 		$data = array();
@@ -177,14 +171,14 @@ class tablefields
 				}
 			}
 		}
-		
+
 		if(!empty($post[$fields['primary']]))
 		{
 			$data[$fields['primary']] = $post[$fields['primary']];
 			$data['primary'] = $fields['primary'];
 			unset($data['data'][$fields['primary']]);
 		}
-		
+
 		return $data;
 	}
 }
